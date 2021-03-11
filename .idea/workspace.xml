@@ -116,6 +116,11 @@
       <path value="$PROJECT_DIR$/vendor/symfony/twig-bridge" />
       <path value="$PROJECT_DIR$/vendor/symfony/serializer" />
       <path value="$PROJECT_DIR$/vendor/symfony/debug" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-uuid" />
+      <path value="$PROJECT_DIR$/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/vendor/symfony/uid" />
+      <path value="$PROJECT_DIR$/vendor/easycorp/easyadmin-bundle" />
     </include_path>
   </component>
   <component name="ProjectId" id="1pZWB5oxELqW0BMa7jRBvOdEjvF" />
@@ -143,7 +148,7 @@
       <option name="presentableId" value="Default" />
       <updated>1615391017426</updated>
       <workItem from="1615391027240" duration="9828000" />
-      <workItem from="1615454102002" duration="7994000" />
+      <workItem from="1615454102002" duration="15740000" />
     </task>
     <servers />
   </component>
