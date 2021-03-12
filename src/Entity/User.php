@@ -38,7 +38,7 @@ class User implements UserInterface
      *     minMessage="Votre mot de passe doit contenir 8 caractères minimum."
      * )
      * @Assert\Regex(
-     *     pattern="/^\S*(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%\\\[\]\(\)\{\}])\S*$/",
+     *     pattern="/^\S*(?=.*[A-Z])(?=.*[@#$%\\\[\]\(\)\{\}])\S*$/",
      *     message="Votre mot de passe doit contenir 1 majuscule, 1 minuscule et 1 caractère spéciale"
      * )
      */
