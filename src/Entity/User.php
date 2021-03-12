@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -21,6 +22,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank()
      */
     private $email;
 
@@ -30,6 +32,15 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=8,
+     *     minMessage="Votre mot de passe doit contenir 8 caractères minimum."
+     * )
+     */
+    private $plainPassword;
+
+    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
@@ -37,11 +48,25 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *     min="3",
+     *     minMessage="Vous devez avoir 3 lettres minimum pour votre prénom",
+     *     max=60,
+     *     maxMessage="Déconnez pas votre prénom ne peux pas excéder 60 caractères."
+     * )
+     * @Assert\NotBlank()
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *     min="3",
+     *     minMessage="Vous devez avoir 3 lettres minimum pour le nom",
+     *     max=60,
+     *     maxMessage="Houla votre nom dépasse les 60 caractères."
+     * )
+     * @Assert\NotBlank()
      */
     private $lastname;
 
@@ -89,6 +114,16 @@ class User implements UserInterface
         $this->roles = $roles;
 
         return $this;
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
     }
 
     /**

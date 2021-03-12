@@ -35,7 +35,7 @@ class RegisterType extends AbstractType
                     'placeholder' => "Veuillez entrer votre email"
                 ]
             ])
-            ->add('password', RepeatedType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => "le mot de passe et la confirmation doivent être identique",
                 'label' => "Votre mot de passe",
@@ -51,7 +51,7 @@ class RegisterType extends AbstractType
                     'attr' => [
                         'placeholder' => "Veuillez confirmer votre mot de passe"
                     ]
-                    ]
+                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => "S'inscrire"
