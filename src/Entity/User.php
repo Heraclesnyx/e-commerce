@@ -37,6 +37,10 @@ class User implements UserInterface
      *     min=8,
      *     minMessage="Votre mot de passe doit contenir 8 caractères minimum."
      * )
+     * @Assert\Regex(
+     *     pattern="/([A-Z]{1,})([a-z]{1,})(.*[\W]){1,}(?!.*\s)/",
+     *     message="Votre mot de passe doit contenir 1 majuscule, 1 minuscule et 1 caractère spéciale"
+     * )
      */
     private $plainPassword;
 
@@ -54,6 +58,7 @@ class User implements UserInterface
      *     max=60,
      *     maxMessage="Déconnez pas votre prénom ne peux pas excéder 60 caractères."
      * )
+     *
      * @Assert\NotBlank()
      */
     private $firstname;
