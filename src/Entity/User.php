@@ -31,6 +31,8 @@ class User implements UserInterface
      */
     private $roles = [];
 
+
+    ////Le pattern représente 1 Majuscule obligatoire,1 minuscule obligatoire et 1 caractère spéciale obligatoire, les chiffres sont facultatives ici.
     /**
      * @Assert\NotBlank()
      * @Assert\Length(

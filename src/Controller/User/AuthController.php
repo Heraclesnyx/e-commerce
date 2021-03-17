@@ -11,6 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+
+/**
+ * Class AuthController
+ *
+ * @package App\Controller
+ */
 class AuthController extends AbstractController
 {
     private $entityManager;
@@ -18,8 +24,16 @@ class AuthController extends AbstractController
     public function __construct(EntityManagerInterface $entityManager){
         $this->entityManager = $entityManager;
     }
-
+    //* @param MailerService                $mailerService   Send mail.
+    //* @param TokenGeneratorInterface      $tokenGenerator  Token.
     /**
+     * Register a new User
+     *
+     * @param Request                      $request         Request.
+     * @param UserPasswordEncoderInterface $passwordEncoder User pwd encoder.
+     *
+     * @return
+     *
      * @Route("/register", name="user_register")
      */
     public function index(Request $request, UserPasswordEncoderInterface $encoder): Response
@@ -46,5 +60,5 @@ class AuthController extends AbstractController
         return $this->render('auth/index.html.twig',[
             'form'=> $form->createView()
         ]);
-    }
-}
+    }//Fin de la function index()
+}//Fin de la classe

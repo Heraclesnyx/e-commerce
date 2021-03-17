@@ -14,6 +14,14 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProductRepository extends ServiceEntityRepository
 {
+
+    /**
+     * UserRepository constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry.
+     *
+     * @return void
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Product::class);

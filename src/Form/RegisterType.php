@@ -12,8 +12,23 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+
+/**
+ * Class RegisterFormType
+ *
+ * @package App\Form
+ */
 class RegisterType extends AbstractType
 {
+
+    /**
+    * Builder
+    *
+    * @param FormBuilderInterface $builder Builder.
+    * @param array                $options Array options.
+    *
+    * @return void
+    */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -57,12 +72,21 @@ class RegisterType extends AbstractType
                 'label' => "S'inscrire"
             ])
         ;
-    }
+    }//fin du buildForm()
 
+
+    /**
+     * Configuration
+     *
+     * @param OptionsResolver $resolver Resolver.
+     *
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => User::class,
         ]);
-    }
-}
+    }//Fin de configureOptions()
+
+}//Fin de la classe

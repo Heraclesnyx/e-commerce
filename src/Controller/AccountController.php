@@ -10,6 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+
+/**
+ * Class AccountController
+ *
+ * @package App\Controller
+ */
 class AccountController extends AbstractController
 {
     private $entityManager;
@@ -19,6 +25,8 @@ class AccountController extends AbstractController
     }
 
     /**
+     * Rendue de la vue du compte
+     *
      * @Route("/account", name="account")
      */
     public function index(): Response
@@ -27,41 +35,49 @@ class AccountController extends AbstractController
     }
 
     /**
+     * Reset password
+     *
+     * @param Request                      $request         Request.
+     * @param UserPasswordEncoderInterface $passwordEncoder User pwd encoder.
+     *
+     * @return
      * @Route("/account/password", name="account_password")
     */
     public function resetPassword(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $notification = null;
 
-        $user = $this->getUser();
+        $user = $this->getUser(); //récupération d'un user
         $form = $this->createForm(ResetPasswordType::class, $user);
 
-        $form->handleRequest($request);
+//       dd($user);
 
-        if($form->isSubmitted() && $form->isValid()){
+       $form->handleRequest($request);
 
-            $old_password= $form->get('old_password')->getData();
+       if($form->isSubmitted() && $form->isValid()){
 
+            $old_password= $form->get('old_password')->getData(); //récupération de l'ancien mot de passe.
+//            dd($old_password);
             if($encoder->isPasswordValid($user, $old_password)){
 
-                $new_password = $form->get('new_password')->getData();
+                $new_password = $form->get('new_password')->getData(); //partie de l'enregistrement du nouveau password
                 $password = $encoder->encodePassword($user, $new_password);
-
+//                    dd($new_password);
                 $user->setPassword($password);
                 $this->entityManager->flush();
 
                 $notification = "Votre mot de passe à bien été modifier.";
-            }else{
+            } else{
                 $notification = "Votre mot de passe actuel n'est pas le bon.";
             }
 //            return $this->redirectToRoute('account');
 
         }
-
+//
         return $this->render('account/reset_password.html.twig', [
             'form' => $form->createView(),
             'notification' => $notification
         ]);
-    }
+    }//Fin du reset password
 
-}
+}//Fin de la classe

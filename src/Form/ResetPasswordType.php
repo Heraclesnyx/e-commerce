@@ -10,8 +10,24 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+
+
+/**
+ * Class ResetPasswordFormType
+ *
+ * @package App\Form
+ */
 class ResetPasswordType extends AbstractType
 {
+
+    /**
+     * Builder
+     *
+     * @param FormBuilderInterface $builder Builder.
+     * @param array                $options Array options.
+     *
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -44,13 +60,20 @@ class ResetPasswordType extends AbstractType
             ->add('submit', SubmitType::class,[
                 'label' => "Mettre à jour"
             ]);
-        ;
-    }
+    } //fin du buildForm()
 
+    /**
+     * Configuration
+     *
+     * @param OptionsResolver $resolver Resolver.
+     *
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => User::class,
         ]);
-    }
-}
+    }//Fin de configureOptions()
+
+}//Fin de la classe

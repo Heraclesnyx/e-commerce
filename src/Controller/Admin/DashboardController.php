@@ -14,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class DashboardController extends AbstractDashboardController
 {
     /**
+     * Menu admin de aesybundle
+     *
      * @Route("/admin", name="admin")
      */
     public function index(): Response
@@ -27,12 +29,13 @@ class DashboardController extends AbstractDashboardController
             ->setTitle('E Commerce');
     }
 
+    //Appel des différents entity
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home'); //pour 'fa fa-home/fas fa-user...' aller sur fontawesome pour récupérer les logos.
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class);
         yield MenuItem::linkToCrud('Produits', 'fas fa-tags', Product::class);
 
-    }
+    }//Fin de la partie configuration des Menus
 }
