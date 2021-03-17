@@ -8,12 +8,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+
+/**
+ * Class SecurityController
+ *
+ * @package App\Controller
+ */
 class SecurityController extends AbstractController
 {
     /**
      * Login form
      *
-     * @param AuthenticationUtils$authenticationUtils Authentication utils.
+     * @param AuthenticationUtils $authenticationUtils Authentication utils.
+     *
      * @Route("/login", name="app_login")
      *
      * @return Response

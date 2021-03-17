@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\ResetPasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,9 +39,9 @@ class AccountController extends AbstractController
      * Reset password
      *
      * @param Request                      $request         Request.
-     * @param UserPasswordEncoderInterface $passwordEncoder User pwd encoder.
+     * @param UserPasswordEncoderInterface $encoder         pwd encoder.
      *
-     * @return
+     * @return RedirectResponse|Response
      * @Route("/account/password", name="account_password")
     */
     public function resetPassword(Request $request, UserPasswordEncoderInterface $encoder)
@@ -50,17 +51,15 @@ class AccountController extends AbstractController
         $user = $this->getUser(); //récupération d'un user
         $form = $this->createForm(ResetPasswordType::class, $user);
 
-//       dd($user);
 
        $form->handleRequest($request);
 
        if($form->isSubmitted() && $form->isValid()){
-
             $old_password= $form->get('old_password')->getData(); //récupération de l'ancien mot de passe.
-//            dd($old_password);
+//           dump($old_password);
             if($encoder->isPasswordValid($user, $old_password)){
 
-                $new_password = $form->get('new_password')->getData(); //partie de l'enregistrement du nouveau password
+                $new_password = $form->get('plainPassword')->getData(); //partie de l'enregistrement du nouveau password, plainPassword est dans resetPasswordType
                 $password = $encoder->encodePassword($user, $new_password);
 //                    dd($new_password);
                 $user->setPassword($password);

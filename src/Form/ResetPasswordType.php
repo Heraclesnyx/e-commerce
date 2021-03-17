@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
- * Class ResetPasswordFormType
+ * Class ResetPasswordType
  *
  * @package App\Form
  */
@@ -38,10 +38,10 @@ class ResetPasswordType extends AbstractType
                     'placeholder' => "Saisissez votre mot de passe"
                 ]
             ])
-            ->add('new_password', RepeatedType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => "le mot de passe et la confirmation doivent être identique",
-                'mapped' => false,        //mapped permet de ne pas lié se champ avec mon Entity (sa évite de le migrate dans la bdd)
+//                'mapped' => false,        //mapped permet de ne pas lié se champ avec mon Entity (sa évite de le migrate dans la bdd)
                 'label' => "Votre nouveau mot de passe",
                 'required' => true,
                 'first_options'=> [

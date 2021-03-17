@@ -69,7 +69,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      * @param CsrfTokenManagerInterface $csrfTokenManager Csrf.
      * @param UserPasswordEncoderInterface $passwordEncoder User pwd encoder.
      *
-     * @param TranslatorInterface $translator
      */
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -124,7 +123,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      * @param mixed                 $credentials  Credentials.
      * @param UserProviderInterface $userProvider User.
      *
-     * @return object
+     * @return UserInterface|null
      *
      * @throws InvalidCsrfTokenException Csrf invalid.
      * @throws CustomUserMessageAuthenticationException Custom error msg.

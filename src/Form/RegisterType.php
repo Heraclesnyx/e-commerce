@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
- * Class RegisterFormType
+ * Class RegisterType
  *
  * @package App\Form
  */

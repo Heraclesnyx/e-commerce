@@ -30,9 +30,9 @@ class AuthController extends AbstractController
      * Register a new User
      *
      * @param Request                      $request         Request.
-     * @param UserPasswordEncoderInterface $passwordEncoder User pwd encoder.
+     * @param UserPasswordEncoderInterface $encoder User pwd encoder.
      *
-     * @return
+     * @return Response
      *
      * @Route("/register", name="user_register")
      */
