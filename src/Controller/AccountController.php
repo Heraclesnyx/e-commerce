@@ -69,7 +69,7 @@ class AccountController extends AbstractController
             } else{
                 $notification = "Votre mot de passe actuel n'est pas le bon.";
             }
-//            return $this->redirectToRoute('account');
+//           return $this->redirectToRoute('app_logout');
 
         }
 //
