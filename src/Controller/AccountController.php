@@ -56,12 +56,10 @@ class AccountController extends AbstractController
 
        if($form->isSubmitted() && $form->isValid()){
             $old_password= $form->get('old_password')->getData(); //récupération de l'ancien mot de passe.
-//           dump($old_password);
             if($encoder->isPasswordValid($user, $old_password)){
 
                 $new_password = $form->get('plainPassword')->getData(); //partie de l'enregistrement du nouveau password, plainPassword est dans resetPasswordType
                 $password = $encoder->encodePassword($user, $new_password);
-//                    dd($new_password);
                 $user->setPassword($password);
                 $this->entityManager->flush();
 
@@ -72,7 +70,6 @@ class AccountController extends AbstractController
 //           return $this->redirectToRoute('app_logout');
 
         }
-//
         return $this->render('account/reset_password.html.twig', [
             'form' => $form->createView(),
             'notification' => $notification

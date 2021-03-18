@@ -44,7 +44,7 @@ class AuthController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             try{
-                $password = $encoder->encodePassword($user, $user->getPassword());
+                $password = $encoder->encodePassword($user, $user->getPlainPassword()); //On récupére plainPassword et non Password (sinon sa casse tout)
                 $user->setPassword($password);
 
                 $this->entityManager->persist($user);

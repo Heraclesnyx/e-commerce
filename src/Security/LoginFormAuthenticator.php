@@ -108,7 +108,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
 
-//        dd($credentials);
+//      dd($credentials);
 
         $request->getSession()->set(
             Security::LAST_USERNAME,
@@ -157,11 +157,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
-        dd($user);
-        dd($credentials);
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
-
-
 
     } //Fin de checkCredentials()
 
