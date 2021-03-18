@@ -123,7 +123,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      * @param mixed                 $credentials  Credentials.
      * @param UserProviderInterface $userProvider User.
      *
-     * @return UserInterface|null
      *
      * @throws InvalidCsrfTokenException Csrf invalid.
      * @throws CustomUserMessageAuthenticationException Custom error msg.
@@ -157,7 +156,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function checkCredentials($credentials, UserInterface $user)
     {
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        
+        dump($user);
+        dump($credentials);
+
     } //Fin de checkCredentials()
+
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
