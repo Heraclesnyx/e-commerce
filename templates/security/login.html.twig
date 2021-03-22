@@ -19,6 +19,14 @@
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Votre adresse email" required autofocus>
     <label for="inputPassword">Votre mot de passe</label>
     <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Votre mot de passe" required>
+    <hr>
+
+    <div class="checkbox mb-3">
+        <label>Se souvenir de moi
+            <input type="checkbox" name="_remember_me" class="form-control" checked />
+        </label>
+    </div>
+
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
