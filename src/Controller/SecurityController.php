@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\ParamService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,5 +51,17 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }//Fin de la function logout()
+
+    /**
+     * @Route("/hello", name="hello")
+     *
+     * @return Response
+    */
+    public function test(ParamService $paramService, int $code): Response
+    {
+        if($paramService->getLoginAttempt($code) <= 3){
+            $this->addFlash('success', 'Bienvenue');
+        }
+    }
 
 }//Fin de la classe
