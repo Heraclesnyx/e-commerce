@@ -57,9 +57,9 @@ class SecurityController extends AbstractController
      *
      * @return Response
     */
-    public function test(ParamService $paramService, int $code): Response
+    public function test(ParamService $paramService, int $code = 3): Response
     {
-        if($paramService->getLoginAttempt($code) <= 3){
+        if($paramService->getLoginAttempt($code)){
             $this->addFlash('success', 'Bienvenue');
         }
     }

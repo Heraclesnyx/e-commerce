@@ -29,11 +29,17 @@ class ParamService
     {
         //Vérification si la ligne existe en premier(return 0)
 
-        return $this->em->checkCodeParameters($code);
+        if($this->em->checkCodeParameters($code)){
+            return 0;
+        }
 
-//        dd($this->em->checkCodeParameters($code));
+
+       dd($this->em->checkCodeParameters($code));
         //Nombre d'essai
-//        return (int)$check;
+        return (int)$code;
+
+            dd($code);
+
     }
 
 
