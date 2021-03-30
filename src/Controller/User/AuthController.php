@@ -24,6 +24,7 @@ class AuthController extends AbstractController
     public function __construct(EntityManagerInterface $entityManager){
         $this->entityManager = $entityManager;
     }
+
     //* @param MailerService                $mailerService   Send mail.
     //* @param TokenGeneratorInterface      $tokenGenerator  Token.
     /**

@@ -19,19 +19,23 @@ class ParametersRepository extends ServiceEntityRepository
         parent::__construct($registry, Parameters::class);
     }
 
-    
-    public function checkCodeParameters(int $code){
+    /**
+     * Retourne la valeur d'un paramètre grâce à son code.
+     *
+     * @param string $code Le code du paramètre.
+     *
+     * @return string|null
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getParamByCode (string $code): ?Parameters {
 
         $qb = $this->createQueryBuilder('c')
             ->where('c.code = :CODE')
             ->setParameter('CODE', $code);
-//            ->getQuery()
-//            ->getResult();
 
-        return $qb->getQuery()->getResult();
-
-        dd($qb);
-}
+        return $qb->getQuery()->getOneOrNullResult();
+    }
     // /**
     //  * @return Parameters[] Returns an array of Parameters objects
     //  */

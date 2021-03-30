@@ -53,15 +53,19 @@ class SecurityController extends AbstractController
     }//Fin de la function logout()
 
     /**
-     * @Route("/hello", name="hello")
+     * @param ParamService $paramService
      *
      * @return Response
-    */
-    public function test(ParamService $paramService, int $code = 3): Response
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @Route("/hello", name="hello")
+     */
+    public function test(ParamService $paramService): Response
     {
-        if($paramService->getLoginAttempt($code)){
-            $this->addFlash('success', 'Bienvenue');
-        }
+        dd($paramService->getLoginAttempt());
+        dd($paramService->isEmailVerificationnabled());
+
     }
 
 }//Fin de la classe

@@ -157,7 +157,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+//        dd($user);
+        //Retouche a faire pour l'incrémentation de la tentative de connexion, retourner un BOOL
+
+        $successLogin = $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+
+        // On récupère le nombre de tentative... Le service getLoginAttempt()
+        // Si x > 0 alors on rentre dans la condition...
+        // Si le nombreDeTentative >= x, on bloque le compte
+        return $successLogin;
 
     } //Fin de checkCredentials()
 
@@ -191,6 +199,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
+
+        //Injecter la méthode REMISE A 0 du service ParamService, updateLoginAttempt()
 
          return new RedirectResponse($this->urlGenerator->generate('account'));
     }//Fin de onAuthenticationSuccess()

@@ -4,9 +4,9 @@ namespace App\Service;
 
 
 
+//use App\Entity\Parameters;
 use App\Repository\ParametersRepository;
-//use phpDocumentor\Reflection\Types\Boolean;
-use PhpParser\Builder\Param;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 /**
@@ -16,37 +16,72 @@ use PhpParser\Builder\Param;
  */
 class ParamService
 {
+    /**
+     * @var ParametersRepository $em
+     */
     private $em;
 
-    public function __construct(ParametersRepository $repository)
+    private $entityManager;
+
+    /**
+     * ParamService constructor.
+     * @param ParametersRepository $repository
+     */
+    public function __construct(ParametersRepository $repository, EntityManagerInterface $entityManager)
     {
-        //importer le repository
+        // Importer le repository.
         $this->em= $repository;
-//        $repository= $em->getRepository(ParamService::class);    Importation d'un repository
+
+        $this->entityManager = $entityManager;
+
     }
 
-    public function getLoginAttempt(string $code): ?Param
+    /**
+     * Retourne le nombre de tentatives autorisées pour se connecter.
+     *
+     * @return integer
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getLoginAttempt(): int
     {
-        //Vérification si la ligne existe en premier(return 0)
+        // Récupération du nombre de tentative de connexion.
+        $nbr = $this->em->getParamByCode('SIGNIN__ATTEMPT');
 
-        if($this->em->checkCodeParameters($code)){
-            return 0;
-        }
+        // Retourne le nombre de tentatives autorisées, 0 si le paramètre n'existe pas.
+        return !$nbr ? 0 : (int) $nbr->getValue();
 
+    }//end getLoginAttempt()
 
-       dd($this->em->checkCodeParameters($code));
-        //Nombre d'essai
-        return (int)$code;
+    /**
+     * Remise à 0 afin de débloquer le compte
+     *
+     * @return int
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function updateLoginAttempt() : int
+    {
+        //Récupérer Doctrine
+        $nbr = $this->em->getParamByCode('SIGNIN__ATTEMPT');
 
-            dd($code);
+        //SetValue à 0 et flush()
+        $nbr->setValue('0');
+        $this->entityManager->flush();
 
-    }
+    }//end updateLoginAttempt()
 
+    /**
+     * Retourne si la validationn de compte par e-mail est activée.
+     *
+     * @return boolean
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function isEmailVerificationnabled(): bool {
+        // Vérification si la ligne existe en premier(return false)
+         $email = $this->em->getParamByCode('EMAIL__VALIDATION');
 
-//    public function isEmailVerificationnabled(): Boolean{
-//        //Vérification si la ligne existe en premier(return false)
-//
-//        //Vérification active ou non
-//        return (bool)(int)$mavaleur;
-//    }
+        // Vérification active ou non
+        return !$email ? false : (bool)(int)$email->getValue(); //(bool)(int) == double cast => signifie ici que le int retournera un booleen
+
+    }//end isEmailVerificationnabled()
 }
