@@ -79,6 +79,21 @@ class User implements UserInterface
      */
     private $lastname;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $attemptLogin;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $compteur;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -190,6 +205,42 @@ class User implements UserInterface
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getAttemptLogin(): ?int
+    {
+        return $this->attemptLogin;
+    }
+
+    public function setAttemptLogin(int $attemptLogin): self
+    {
+        $this->attemptLogin = $attemptLogin;
+
+        return $this;
+    }
+
+    public function getCompteur(): ?int
+    {
+        return $this->compteur;
+    }
+
+    public function setCompteur(int $compteur): self
+    {
+        $this->compteur = $compteur;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

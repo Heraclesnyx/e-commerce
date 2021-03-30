@@ -26,11 +26,15 @@ class SecurityController extends AbstractController
      *
      * @return Response
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils,ParamService $paramService
+): Response
     {
          if ($this->getUser()) {
              return $this->redirectToRoute('account');
          }
+
+         //Importation de mon service pour la tentative de connexion
+         $tentative = $paramService->getLoginAttempt();
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

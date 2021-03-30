@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Service\ParamService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,6 +61,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     private $passwordEncoder;
 
+    /**
+     * @var ParamService
+     */
+    private $paramService;
+
 
     /**
      * LoginFormAuthenticator constructor.
@@ -70,12 +76,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      * @param UserPasswordEncoderInterface $passwordEncoder User pwd encoder.
      *
      */
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, ParamService $paramService)
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
+        $this->paramService = $paramService;
     }
 
 
@@ -163,8 +170,16 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $successLogin = $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
 
         // On récupère le nombre de tentative... Le service getLoginAttempt()
+        $nbr = $this->paramService->getLoginAttempt();
         // Si x > 0 alors on rentre dans la condition...
-        // Si le nombreDeTentative >= x, on bloque le compte
+        if ($nbr > 0){
+            $nbr++;
+        }// Si le nombreDeTentative >= x, on bloque le compte
+        elseif($nbr >= 0){
+            return $this->getUser()->setIsActive('false');
+
+        }
+
         return $successLogin;
 
     } //Fin de checkCredentials()
@@ -187,10 +202,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     /**
      * Auth success
      *
-     * @param Request        $request     Request.
-     * @param TokenInterface $token       Token.
-     * @param string         $providerKey String.
-     *
+     * @param Request $request Request.
+     * @param TokenInterface $token Token.
+     * @param string $providerKey String.
      * @return RedirectResponse|null
      * @throws \Exception Exception.
      */
@@ -201,6 +215,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         }
 
         //Injecter la méthode REMISE A 0 du service ParamService, updateLoginAttempt()
+        $remiseZero = $this->paramService->updateLoginAttempt();
 
          return new RedirectResponse($this->urlGenerator->generate('account'));
     }//Fin de onAuthenticationSuccess()
