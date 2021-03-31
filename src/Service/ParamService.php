@@ -4,7 +4,8 @@ namespace App\Service;
 
 
 
-//use App\Entity\Parameters;
+use App\Entity\Parameters;
+use App\Entity\User;
 use App\Repository\ParametersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -52,23 +53,7 @@ class ParamService
         return !$nbr ? 0 : (int) $nbr->getValue();
 
     }//end getLoginAttempt()
-
-    /**
-     * Remise à 0 afin de débloquer le compte
-     *
-     * @return int
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
-    public function updateLoginAttempt() : int
-    {
-        //Récupérer Doctrine
-        $nbr = $this->em->getParamByCode('SIGNIN__ATTEMPT');
-
-        //SetValue à 0 et flush()
-        $nbr->setValue('0');
-        $this->entityManager->flush();
-
-    }//end updateLoginAttempt()
+    
 
     /**
      * Retourne si la validationn de compte par e-mail est activée.

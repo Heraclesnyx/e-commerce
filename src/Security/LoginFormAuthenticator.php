@@ -173,7 +173,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $nbr = $this->paramService->getLoginAttempt();
         // Si x > 0 alors on rentre dans la condition...
         if ($nbr > 0){
-            $nbr++;
+            $compt = $this->getUser()->getComtepur();
+            $compt++;
+//            $nbr++;
         }// Si le nombreDeTentative >= x, on bloque le compte
         elseif($nbr >= 0){
             return $this->getUser()->setIsActive('false');
