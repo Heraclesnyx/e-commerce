@@ -173,16 +173,17 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
 //        dd($user);
         /* Old code */
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+       // return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
 
         /* New code */
         // On vérifie si le mot de passe est valide.
         $successLogin = $this->passwordEncoder->isPasswordValid($user, $credentials['email']);
 
         // S'il n'est pas valide, on regarde si la limite de tentative de connexion est activée (0 = non, x = oui avec x tentatives max).
+
+        $tentative = $this->$user->getAttemptLogin();
         if(!$successLogin)
         {
-            $tentative = $this->$user->getAttemptLogin();
 
             return !$tentative ? false : $tentative->getAttemptLogin();
         }
@@ -190,11 +191,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
 //        // Si le nombre de tentatives est inférieur au nombre autorisé, on rajoute +1 au nombre et on met à jour l'utilisateur à jour.
         if($tentative < $this->paramService->getLoginAttempt()){ //Nbr tentative est dans user $attemptLogin, nbr autorisé est dans parameters code = Signin_attempt et value = 3
-            $commpteur = $this->$user->getCompteur(); //Récuperer le compteur de user et l'incrémenter ensuite
+            $compteur = $this->$user->getCompteur(); //Récuperer le compteur de user et l'incrémenter ensuite
             $compteur ++;
+
+            $user->setCompteur($compteur);  //je set le comteur avec la valeur incrémenter et j'enregistre en base
+            $this->entityManager->flush();
         }
-        $user->setCompteur($compteur);  //je set le comteur avec la valeur incrémenter et j'enregistre en base
-        $this->entityManager->flush();
+
 
         // Si le nombre de tentatives est supérieur au nombre autorisé, on bloque l'utilisateur, on notifie par mail le propriétaire du compte pour qu'il débloque le compte via un code à saisir.
         if($tentative  > $this->paramService->getLoginAttempt()){
