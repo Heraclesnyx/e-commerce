@@ -173,37 +173,37 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
 //        dd($user);
         /* Old code */
-//        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
 
         /* New code */
         // On vérifie si le mot de passe est valide.
-        $successLogin = $this->passwordEncoder->isPasswordValid($user, $credentials['email']);
-
-        // S'il n'est pas valide, on regarde si la limite de tentative de connexion est activée (0 = non, x = oui avec x tentatives max).
-        if(!$successLogin){
-            if($this->$user->getAttemptLogin() === 0){
-                return false;
-            }
-            if($this->$user->getAttemptLogin() > 0){
-                return $this->paramService->getloginAttempt();
-            }
-        }
-
-        // Si le nombre de tentatives est inférieur au nombre autorisé, on rajoute +1 au nombre et on met à jour l'utilisateur à jour.
-        if($this->$user->getAttemptLogin() < $this->paramService->getLoginAttempt()){
-            $compteur = $this->$user->getCompteur();
-            $compteur++;
-
-            $user->setCompteur($compteur);
-            $this->entityManager->flush();
-
-        }
-        // Si le nombre de tentatives est supérieur au nombre autorisé, on bloque l'utilisateur, on notifie par mail le propriétaire du compte pour qu'il débloque le compte via un code à saisir.
-        if($this->$user->getAttemptlogin() > $this->paramService->getLoginAttempt()){
-            $this->$user->setIsActive(false);
-        }
-
-        return $successLogin;
+//        $successLogin = $this->passwordEncoder->isPasswordValid($user, $credentials['email']);
+//
+//        // S'il n'est pas valide, on regarde si la limite de tentative de connexion est activée (0 = non, x = oui avec x tentatives max).
+//        if(!$successLogin){
+//            if($this->$user->getAttemptLogin() === 0){
+//                return false;
+//            }
+//            if($this->$user->getAttemptLogin() > 0){
+//                return $this->paramService->getloginAttempt();
+//            }
+//        }
+//
+//        // Si le nombre de tentatives est inférieur au nombre autorisé, on rajoute +1 au nombre et on met à jour l'utilisateur à jour.
+//        if($this->$user->getAttemptLogin() < $this->paramService->getLoginAttempt()){
+//            $compteur = $this->$user->getCompteur();
+//            $compteur++;
+//
+//            $user->setCompteur($compteur);
+//            $this->entityManager->flush();
+//
+//        }
+//        // Si le nombre de tentatives est supérieur au nombre autorisé, on bloque l'utilisateur, on notifie par mail le propriétaire du compte pour qu'il débloque le compte via un code à saisir.
+//        if($this->$user->getAttemptlogin() > $this->paramService->getLoginAttempt()){
+//            $this->$user->setIsActive(false);
+//        }
+//
+//        return $successLogin;
 
     } //Fin de checkCredentials()
 
@@ -233,10 +233,16 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+//        dd($token);
         // On remet à zéro le nombre de tentative de connexion de l'utilisateur (il est dans user attemptlogin() -> méthode resetAttemptSignInUser du UserService).
         // Puis on sauvegarde en base.
-        $user = new User();
-        return  $this->userService->resetAttemptSignInUser($user);
+        try {
+             $this->userService->resetAttemptSignInUser($token->getUser()); //appel De UserService
+        }catch (\Exception $e){
+            dump($e->getMessage());die();
+        }
+
+//        dd($token->getUser());
 
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
