@@ -202,6 +202,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         // Si le nombre de tentatives est supérieur au nombre autorisé, on bloque l'utilisateur, on notifie par mail le propriétaire du compte pour qu'il débloque le compte via un code à saisir.
         if($tentative  > $this->paramService->getLoginAttempt()){
             $this->$user->setIsActive(false); //Desactivation du compte
+
+            $this->paramService->isEmailVerificationnabled();
         }
 
 
