@@ -7,8 +7,6 @@ namespace App\Service;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-
 
 /**
  * Class UserService
@@ -36,7 +34,11 @@ class UserService
 
     }
 
-
+    /**
+     * Remise à 0 du compte
+     *
+     * @param $user
+     */
     public function resetAttemptSignInUser($user)
     {
         //Récupérer Doctrine
