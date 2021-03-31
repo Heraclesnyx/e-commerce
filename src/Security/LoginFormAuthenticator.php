@@ -181,7 +181,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         // S'il n'est pas valide, on regarde si la limite de tentative de connexion est activée (0 = non, x = oui avec x tentatives max).
 
-        $tentative = $this->$user->getAttemptLogin();
+        $tentative = $this->$user->getAttemptLogin(); //reucpérer le nbr de tentative autorisé
         if(!$successLogin)
         {
 
@@ -194,7 +194,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             $compteur = $this->$user->getCompteur(); //Récuperer le compteur de user et l'incrémenter ensuite
             $compteur ++;
 
-            $user->setCompteur($compteur);  //je set le comteur avec la valeur incrémenter et j'enregistre en base
+            $user->setCompteur($compteur);  //je set le compteur avec la valeur incrémenter et j'enregistre en base
             $this->entityManager->flush();
         }
 
