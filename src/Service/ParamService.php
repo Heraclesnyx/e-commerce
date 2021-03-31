@@ -3,9 +3,6 @@
 namespace App\Service;
 
 
-
-use App\Entity\Parameters;
-use App\Entity\User;
 use App\Repository\ParametersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -22,6 +19,9 @@ class ParamService
      */
     private $em;
 
+    /**
+     * @var EntityManagerInterface $entityManager
+     */
     private $entityManager;
 
     /**
@@ -53,7 +53,7 @@ class ParamService
         return !$nbr ? 0 : (int) $nbr->getValue();
 
     }//end getLoginAttempt()
-    
+
 
     /**
      * Retourne si la validationn de compte par e-mail est activée.

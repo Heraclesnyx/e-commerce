@@ -8,8 +8,9 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
 
+
 /**
- * Class ParamService
+ * Class UserService
  *
  * @package App\Service
  */
@@ -20,6 +21,9 @@ class UserService
      */
     private $em;
 
+    /**
+     * @var EntityManagerInterface $entityManager
+     */
     private $entityManager;
 
     public function __construct(ParamService $paramService, EntityManagerInterface $entityManager)

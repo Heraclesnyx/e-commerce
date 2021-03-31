@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Service\ParamService;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,6 +67,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     private $paramService;
 
+    /**
+     * @var
+     */
+    private $userService;
+
 
     /**
      * LoginFormAuthenticator constructor.
@@ -76,13 +82,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      * @param UserPasswordEncoderInterface $passwordEncoder User pwd encoder.
      *
      */
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, ParamService $paramService)
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, ParamService $paramService, UserService $userService)
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
         $this->paramService = $paramService;
+        $this->userService = $userService;
     }
 
 
@@ -165,21 +172,35 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function checkCredentials($credentials, UserInterface $user)
     {
 //        dd($user);
-        //Retouche a faire pour l'incrémentation de la tentative de connexion, retourner un BOOL
+        /* Old code */
+        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
 
-        $successLogin = $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        /* New code */
+        // On vérifie si le mot de passe est valide.
+        $successLogin = $this->passwordEncoder->isPasswordValid($user, $credentials['email']);
 
-        // On récupère le nombre de tentative... Le service getLoginAttempt()
-        $nbr = $this->paramService->getLoginAttempt();
-        // Si x > 0 alors on rentre dans la condition...
-        if ($nbr > 0){
-            $compt = $this->getUser()->getComtepur();
-            $compt++;
-//            $nbr++;
-        }// Si le nombreDeTentative >= x, on bloque le compte
-        elseif($nbr >= 0){
-            return $this->getUser()->setIsActive('false');
+        // S'il n'est pas valide, on regarde si la limite de tentative de connexion est activée (0 = non, x = oui avec x tentatives max).
+        if(!$successLogin){
+            if($this->$user->getAttemptLogin() === 0){
+                return false;
+            }
+            if($this->$user->getAttemptLogin() > 0){
+                return $this->$paramService->getloginAttempt();
+            }
+        }
 
+        // Si le nombre de tentatives est inférieur au nombre autorisé, on rajoute +1 au nombre et on met à jour l'utilisateur à jour.
+        if($this->$user->getAttemptLogin() < $this->$paramService->getLoginAttempt()){
+            $compteur = $this->$user->getCompteur();
+            $compteur++;
+
+            $user->setCompteur($compteur);
+            $this->entityManager->flush();
+
+        }
+        // Si le nombre de tentatives est supérieur au nombre autorisé, on bloque l'utilisateur, on notifie par mail le propriétaire du compte pour qu'il débloque le compte via un code à saisir.
+        if($this->$user->getAttemptlogin() > $this->paramService->getLoginAttempt()){
+            $user->setIsActive(false);
         }
 
         return $successLogin;
@@ -212,12 +233,16 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        // On remet à zéro le nombre de tentative de connexion de l'utilisateur (il est dans user attemptlogin() -> méthode resetAttemptSignInUser du UserService).
+        // Puis on sauvegarde en base.
+        $user = new User();
+        return  $this->userService->resetAttemptSignInUser($user);
+
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
 
-        //Injecter la méthode REMISE A 0 du service ParamService, updateLoginAttempt()
-        $remiseZero = $this->paramService->updateLoginAttempt();
 
          return new RedirectResponse($this->urlGenerator->generate('account'));
     }//Fin de onAuthenticationSuccess()
