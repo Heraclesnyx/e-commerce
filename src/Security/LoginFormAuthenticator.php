@@ -173,7 +173,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
 //        dd($user);
         /* Old code */
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+//        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
 
         /* New code */
         // On vérifie si le mot de passe est valide.
@@ -185,12 +185,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
                 return false;
             }
             if($this->$user->getAttemptLogin() > 0){
-                return $this->$paramService->getloginAttempt();
+                return $this->paramService->getloginAttempt();
             }
         }
 
         // Si le nombre de tentatives est inférieur au nombre autorisé, on rajoute +1 au nombre et on met à jour l'utilisateur à jour.
-        if($this->$user->getAttemptLogin() < $this->$paramService->getLoginAttempt()){
+        if($this->$user->getAttemptLogin() < $this->paramService->getLoginAttempt()){
             $compteur = $this->$user->getCompteur();
             $compteur++;
 
@@ -200,7 +200,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         }
         // Si le nombre de tentatives est supérieur au nombre autorisé, on bloque l'utilisateur, on notifie par mail le propriétaire du compte pour qu'il débloque le compte via un code à saisir.
         if($this->$user->getAttemptlogin() > $this->paramService->getLoginAttempt()){
-            $user->setIsActive(false);
+            $this->$user->setIsActive(false);
         }
 
         return $successLogin;
