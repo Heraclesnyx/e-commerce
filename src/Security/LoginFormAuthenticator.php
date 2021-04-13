@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Service\ParamService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\This;
+//use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -163,12 +163,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
 
     /**
-     * Check credentials
-     *
-     * @param mixed         $credentials Credentials.
-     * @param UserInterface $user        User.
-     *
-     * @return boolean
+     * @param mixed $credentials
+     * @param UserInterface $user
+     * @return bool|mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
@@ -179,23 +177,34 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         /* New code */
         // On vérifie si le mot de passe est valide.
         $successLogin = $this->passwordEncoder->isPasswordValid($user, $credentials['email']);
-        // S'il n'est pas valide, on regarde si la limite de tentative de connexion est activée (0 = non, x = oui avec x tentatives max).
-        // Si le nombre de tentatives est inférieur au nombre autorisé, on rajoute +1 au nombre et on met à jour l'utilisateur à jour.
         // Si le nombre de tentatives est supérieur au nombre autorisé, on bloque l'utilisateur, on notifie par mail le propriétaire du compte pour qu'il débloque le compte via un code à saisir.
-        return !$successLogin ? 0 : $this->paramService->getLoginAttempt();
 
-        $nbr = $this->$user->getCompteur(); //Récupération du nombre de tentative
-        if($nbr < $this->paramService->getLoginAttempt()){
-            $nbr ++;
-            $this->entityManager->flush();
-        }else{
-            $thi->$user->getIsActive(false);
-            $this->paramService->isEmailVerificationnabled();
+        if(false === $successLogin){
+            // S'il n'est pas valide, on regarde si la limite de tentative de connexion est activée (0 = non, x = oui avec x tentatives max).
+            $loginAttempt = $this->paramService->getLoginAttempt();
+
+            if(true === (bool)$loginAttempt){
+
+                //Dans le cas où l'user n'est pas bloqué
+                if($user->getIsActive()){
+                    $nbr = $user->getCompteur();
+
+                    //Incrémentattion
+                    $user->setCompteur($nbr++);
+
+                    // Si le nombre de tentative est inférieure au nombre autorisé, pas besoin de faire le process de ban.
+                    if ($user->getCompteur() < $loginAttempt) {
+                        $this->entityManager->flush();
+                        return $successLogin;
+                    } else {
+                        $user->setIsActive(false);
+                        $this->entityManager->flush();
+                    }
+                }
+                // Process pour avertir que le compte est bloqué.
+
+            }
         }
-//        return $this->$user->getAttemptLogin() < $this->paramService->getLoginAttempt() ?
-
-
-//        return $this->$user->getAttempLogin() > $this->paramService->getLoginAttempt() ? $thi->$user->getIsActive(false) : $this->paramService->isEmailVerificationnabled();
 
         return $successLogin;
 
