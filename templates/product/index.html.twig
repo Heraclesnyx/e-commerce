@@ -6,9 +6,18 @@
 
    <h1>Nos produits</h1>
 
-   Produits
-   {% for product in products %}
-       {{ dump(product)}}
-   {% endfor %}
+   <div class="row product-container">
+      {% for product in products %}
+         <div class="col-md-4">
+            <div class="product-item text-center"> 
+               <img src="/uploads/{{ product.illustration}}" alt="{{ product.name }}" class="img-fluid">
+               <h5>{{ product.name }}</h5>
+               <span class="product-subtitle">{{ product.subtitle }} </span>
+               <span class="product-price">{{ (product.price/100) | number_format(2, ',','.') }} €</span> {#Permet d'afficher le prix en euro car easyAdmin *100 les prix que nous avons entrer dans le dashboard. Number_fprmat  permet de controler les décimales #}
+            </div>
+         </div>
+      {% endfor %}
 
+   </div>
+   
 {% endblock %}

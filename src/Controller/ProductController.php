@@ -32,4 +32,8 @@ class ProductController extends AbstractController
             'products' => $products
         ]);
     }
+
+
+
+    
 }
