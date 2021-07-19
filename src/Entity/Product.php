@@ -25,6 +25,11 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $illustration;
 
     /**
@@ -64,6 +69,19 @@ class Product
 
         return $this;
     }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
 
     public function getIllustration(): ?string
     {
