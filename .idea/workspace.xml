@@ -140,7 +140,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Meetic" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -180,6 +180,9 @@
       <workItem from="1617266863623" duration="9684000" />
       <workItem from="1618306852127" duration="592000" />
       <workItem from="1618821614343" duration="1003000" />
+      <workItem from="1627305008086" duration="853000" />
+      <workItem from="1627910540347" duration="48000" />
+      <workItem from="1628599443647" duration="3704000" />
     </task>
     <servers />
   </component>
