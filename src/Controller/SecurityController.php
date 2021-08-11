@@ -25,6 +25,7 @@ class SecurityController extends AbstractController
      * @Route("/login", name="app_login")
      *
      * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function login(AuthenticationUtils $authenticationUtils,ParamService $paramService
 ): Response

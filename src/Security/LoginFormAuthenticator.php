@@ -69,7 +69,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     private $paramService;
 
     /**
-     * @var
+     * @var UserService
      */
     private $userService;
 
