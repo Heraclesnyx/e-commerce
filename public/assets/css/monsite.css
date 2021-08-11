@@ -47,3 +47,9 @@ img {
 .product-page-price{
     font-size: 19px;
 }
+
+.cart-icon{
+    height: 20px;
+    padding-left: 10px;
+    padding-top: 0;
+}

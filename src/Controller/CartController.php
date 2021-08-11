@@ -26,18 +26,10 @@ class CartController extends AbstractController
      */
     public function index(Cart $cart): Response
     {
-        $panierComplet = [];
 
-        foreach ($cart->get() as $id => $quantity)
-        {
-            $panierComplet[] = [
-                'product' => $this->entityManager->getRepository(Product::class)->findOneBy(['id'=> $id]),
-                'quantity' => $quantity
-            ];
-        }
 //        dd($panierComplet);
         return $this->render('cart/index.html.twig', [
-            'cart' => $panierComplet
+            'cart' => $cart->getFull()
         ]);
     }
 
@@ -46,7 +38,7 @@ class CartController extends AbstractController
      */
     public function add(Cart $cart,$id)
     {
-        $cart->add($id);
+        $cart->add($id); //Methode add est dans Cart.php, injection de dépendance
 
         return $this->redirectToRoute('cart');
     }
@@ -56,8 +48,28 @@ class CartController extends AbstractController
      */
     public function remove(Cart $cart)
     {
-        $cart->remove();
+        $cart->remove(); //Methode remove est dans Cart.php, injection de dépendance
 
         return $this->redirectToRoute('products');
+    }
+
+    /**
+     * @Route("/cart/delete/{id}", name="delete_to_cart")
+     */
+    public function delete(Cart $cart, $id)
+    {
+        $cart->delete($id); //Methode delete est dans Cart.php, injection de dépendance
+
+        return $this->redirectToRoute('cart');
+    }
+
+    /**
+     * @Route("/cart/decrease/{id}", name="decrease_to_cart")
+     */
+    public function decrease(Cart $cart, $id)
+    {
+        $cart->decrease($id); //Methode delete est dans Cart.php, injection de dépendance
+
+        return $this->redirectToRoute('cart');
     }
 }
