@@ -49,6 +49,7 @@ class AuthController extends AbstractController
                 $user->setPassword($password);
 
                 $this->entityManager->persist($user);
+//                dd($user);
                 $this->entityManager->flush();
 
             }catch (\Exception $e){
