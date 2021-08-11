@@ -89,7 +89,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isActive;
+    private $isActive= true;
 
     /**
      * @ORM\OneToMany(targetEntity=Adress::class, mappedBy="user")
@@ -224,18 +224,6 @@ class User implements UserInterface
     public function setAttemptLogin(int $attemptLogin): self
     {
         $this->attemptLogin = $attemptLogin;
-
-        return $this;
-    }
-
-    public function getCompteur(): ?int
-    {
-        return $this->compteur;
-    }
-
-    public function setCompteur(int $compteur): self
-    {
-        $this->compteur = $compteur;
 
         return $this;
     }
