@@ -187,13 +187,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
                 //Dans le cas où l'user n'est pas bloqué
                 if($user->getIsActive()){
-                    $nbr = $user->getCompteur();
+                    $nbr = $user->getAttemptLogin();
 
                     //Incrémentattion
-                    $user->setCompteur($nbr++);
+                    $user->setAttemptLogin($nbr++);
 
                     // Si le nombre de tentative est inférieure au nombre autorisé, pas besoin de faire le process de ban.
-                    if ($user->getCompteur() < $loginAttempt) {
+                    if ($user->getAttemptLogin() < $loginAttempt) {
                         $this->entityManager->flush();
                         return $successLogin;
                     } else {
