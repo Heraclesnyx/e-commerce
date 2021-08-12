@@ -89,7 +89,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isActive= true;
+    private $isActive= false;
 
     /**
      * @ORM\OneToMany(targetEntity=Adress::class, mappedBy="user")

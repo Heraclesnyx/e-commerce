@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Service\ParamService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
-//use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -22,7 +21,8 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-//use Symfony\Contracts\Translation\TranslatorInterface;
+
+
 
 /**
  * Class LoginFormAuthenticator
@@ -170,13 +170,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
-//        dd($user);
+//        dd($credentials);
         /* Old code */
        // return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
 
         /* New code */
         // On vérifie si le mot de passe est valide.
-        $successLogin = $this->passwordEncoder->isPasswordValid($user, $credentials['email']);
+        $successLogin = $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+//        dd($successLogin);
         // Si le nombre de tentatives est supérieur au nombre autorisé, on bloque l'utilisateur, on notifie par mail le propriétaire du compte pour qu'il débloque le compte via un code à saisir.
 
         if(false === $successLogin){

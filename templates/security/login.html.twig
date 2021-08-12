@@ -5,6 +5,7 @@
 {% block body %}
 <form method="post">
     {% if error %}
+{#        {{ dump(error) }}#}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
@@ -16,7 +17,7 @@
 
     <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
     <label for="inputEmail">Votre email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Votre adresse email" required autofocus>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Votre adresse email" required autofocus />
     <label for="inputPassword">Votre mot de passe</label>
     <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Votre mot de passe" required>
     <hr>
@@ -30,7 +31,7 @@
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
-    >
+    />
 
     <hr>
     <button class="btn btn-lg btn-primary btn-sm" type="submit">

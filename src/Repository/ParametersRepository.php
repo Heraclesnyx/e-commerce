@@ -35,6 +35,7 @@ class ParametersRepository extends ServiceEntityRepository
             ->setParameter('CODE', $code);
 
         return $qb->getQuery()->getOneOrNullResult();
+
     }
     // /**
     //  * @return Parameters[] Returns an array of Parameters objects
