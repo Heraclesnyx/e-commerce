@@ -9,8 +9,16 @@
     <p> C'est ici que vous pourrez modifier vos informations personnelles.</p>
 
     <hr>
-    <a href="{{ path('account_password') }}">Changer mot de passe</a>
-    <a href="{{ path('account_address') }}">Gérer mes adresses</a>
-
-
+    <div class="row">
+        <div class="col-md-4">
+            <div class="account-item text-center">
+                <a href="{{ path('account_password') }}">Modifier mon mot de passe</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="account-item text-center">
+                <a href="{{ path('account_address') }}">Gérer mes adresses</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
