@@ -14,7 +14,6 @@
                     {{ form_label(form.addresses, 'Choisissez votre adresse de livraison') }}
                     <a href="{{ path('account_address_add') }}">Ajoutez une new adresse</a>
                 {{ form_end(form) }}
-
             {% endset %}
 
             {{ formHtml|replace({'[br]': '<br/>'})|raw }} {# replace == remplace le br de l'entity par la balise html et raw === interprétation en html #}
@@ -43,7 +42,6 @@
                 {% endfor %}
                 <b>Bouton pour valider mes achats</b>
             </div>
-
         </div>
     </div>
 {% endblock %}

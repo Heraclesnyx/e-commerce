@@ -99,7 +99,8 @@ class OrderController extends AbstractController
                 $this->entityManger->persist($orderDetails);
             }
 
-//            $this->entityManger->flush();//Ici on flush le tout càd Order et OrderDetails
+            $this->entityManger->flush();//Ici on flush le tout càd Order et OrderDetails
+
             return $this->render('order/add.html.twig',[
                 'cart' => $cart->getFull(),//getFull permet de récupérer toutes les infos du panier, se trouve dans src/Classe/Cart
                 'carrier' => $carriers,
