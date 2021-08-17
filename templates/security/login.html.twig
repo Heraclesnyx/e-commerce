@@ -3,44 +3,48 @@
 {% block title %}Se connecter!{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-{#        {{ dump(error) }}#}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <div class="block-small">
+        <form method="post">
+            {% if error %}
+                {#        {{ dump(error) }}#}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
-    <label for="inputEmail">Votre email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Votre adresse email" required autofocus />
-    <label for="inputPassword">Votre mot de passe</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Votre mot de passe" required>
-    <hr>
+            <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
+            <label for="inputEmail">Votre email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Votre adresse email" required autofocus />
+            <label for="inputPassword">Votre mot de passe</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Votre mot de passe" required>
+            <hr>
 
-    <div class="checkbox mb-3">
-        <label>Se souvenir de moi
-            <input type="checkbox" name="_remember_me" class="form-control" checked />
-        </label>
+            <div class="checkbox mb-3">
+                <label>Se souvenir de moi
+                    <input type="checkbox" name="_remember_me" class="form-control" checked />
+                </label>
+            </div>
+
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            />
+
+            <button class="btn btn-lg btn-info btn-block" type="submit">
+                Connexion
+            </button>
+
+            <hr>
+
+            <p class="text-center"><a href="{{ path('account_password') }}">Mot de passe oublié</a> ?</p>
+            <p class="text-center">Ou souhaitez-vous <a href="{{ path('user_register') }}">créer un compte</a> ?</p>
+
+        </form>
+
     </div>
 
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    />
-
-    <hr>
-    <button class="btn btn-lg btn-primary btn-sm" type="submit">
-        Connexion
-    </button>
-    <hr>
-
-    <p class="text-center"><a href="{{ path('account_password') }}">Mot de passe oublié</a> ?</p>
-    <p class="text-center">Ou souhaitez-vous <a href="{{ path('user_register') }}">créer un compte</a> ?</p>
-
-</form>
 {% endblock %}

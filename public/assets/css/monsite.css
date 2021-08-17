@@ -53,3 +53,9 @@ img {
     padding-left: 10px;
     padding-top: 0;
 }
+
+.block-small {
+    max-width: 600px;
+    margin: 0 auto;
+    padding-top: 60px;
+}
