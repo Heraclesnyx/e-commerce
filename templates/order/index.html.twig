@@ -10,15 +10,40 @@
     <div class="row">
         <div class="col-md-6">
             {%  set formHtml %}
-                {{ form(form) }}
+                {{ form_start(form, {action:path('order_recap')}) }}
+                    {{ form_label(form.addresses, 'Choisissez votre adresse de livraison') }}
+                    <a href="{{ path('account_address_add') }}">Ajoutez une new adresse</a>
+                {{ form_end(form) }}
+
             {% endset %}
 
             {{ formHtml|replace({'[br]': '<br/>'})|raw }} {# replace == remplace le br de l'entity par la balise html et raw === interprétation en html #}
-            
+
         </div>
         <div class="col-md-6">
-            <b>Récap de ma commande</b><br/>  {# A droite sur ma page #}
-            <b>Bouton pour valider mes achats</b>
+            <div class="text-center">
+                <b>Récap de ma commande</b><br/>  {# A droite sur ma page #}
+                <p>Retrouver le récapitulatif de vos produits</p>
+            </div>
+
+            <div class="order-summary">
+                {%  for key, product in cart %}
+                    <div class="row {% if key > 0 %}mt-2{% endif %}">
+                        <div class="col-2">
+                            <img src="/uploads/{{ product.product.illustration }}" alt="{{ product.product.name }}" height="80px"><br/>
+                        </div>
+                        <div class="col-8 my-auto">
+                            {{ product.product.name }}<br />
+                            <small>{{ product.product.subtitle }}</small>
+                        </div>
+                        <div class="col-2 my-auto">
+                            x {{ product.quantity }}
+                        </div>
+                    </div>
+                {% endfor %}
+                <b>Bouton pour valider mes achats</b>
+            </div>
+
         </div>
     </div>
 {% endblock %}

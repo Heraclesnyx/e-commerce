@@ -7,7 +7,7 @@ body {
 }
 
 img {
-    padding-top: 140px;
+    height: 80px;
 }
 
 .footer-custom {
@@ -58,4 +58,20 @@ img {
     max-width: 600px;
     margin: 0 auto;
     padding-top: 60px;
+}
+
+.form-check {
+    background-color: #f4f8ff;
+    padding: 20px 65px;
+    margin-top: 5px;
+}
+
+.col-form-label {
+    font-weight: bold;
+}
+
+.order-summary{
+    background-color: #f4f8ff;
+    padding: 15px;
+    margin-top: 20px;
 }
