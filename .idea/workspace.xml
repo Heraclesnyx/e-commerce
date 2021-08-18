@@ -129,6 +129,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/string" />
       <path value="$PROJECT_DIR$/vendor/symfony/uid" />
       <path value="$PROJECT_DIR$/vendor/easycorp/easyadmin-bundle" />
+      <path value="$PROJECT_DIR$/vendor/stripe/stripe-php" />
     </include_path>
   </component>
   <component name="ProjectId" id="1pZWB5oxELqW0BMa7jRBvOdEjvF" />
@@ -187,7 +188,8 @@
       <workItem from="1628676018804" duration="27147000" />
       <workItem from="1628759737012" duration="9991000" />
       <workItem from="1628849659349" duration="605000" />
-      <workItem from="1629197117013" duration="19593000" />
+      <workItem from="1629197117013" duration="19763000" />
+      <workItem from="1629278527401" duration="9711000" />
     </task>
     <servers />
   </component>
