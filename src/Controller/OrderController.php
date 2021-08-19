@@ -60,7 +60,6 @@ class OrderController extends AbstractController
             $date = new \DateTime();
             $carriers = $form->get('carriers')->getData();
             $delivery = $form->get('addresses')->getData();
-//            dd($delivery);
             $delivery_content = $delivery->getFirstname().' '.$delivery->getLastname();
             $delivery_content .= '<br/>'. $delivery->getPhone();
 
@@ -72,11 +71,13 @@ class OrderController extends AbstractController
             $delivery_content .= '<br/>'. $delivery->getAdress();
             $delivery_content .= '<br/>'. $delivery->getPostal(). ' '. $delivery->getCity();
             $delivery_content .= '<br/>'. $delivery->getCountry();
-//            dd($delivery_content);
 
             //Enregistrer ma commande entity Order()
             $order = new Order();
+            $reference = $date->format('dmY').'-'.uniqid();
+            $order->setReference($reference);
             $order->setUser($this->getUser());
+
 
             $order->setCreatedAt($date);
             $order->setCarrierName($carriers->getName());
@@ -100,12 +101,14 @@ class OrderController extends AbstractController
                 $this->entityManger->persist($orderDetails);
             }
 
-//            $this->entityManger->flush();//Ici on flush le tout càd Order et OrderDetails
+
+            $this->entityManger->flush();//Ici on flush le tout càd Order et OrderDetails
 
             return $this->render('order/add.html.twig',[
                 'cart' => $cart->getFull(),//getFull permet de récupérer toutes les infos du panier, se trouve dans src/Classe/Cart
                 'carrier' => $carriers,
-                'delivery' => $delivery_content
+                'delivery' => $delivery_content,
+                'reference' => $order->getReference()
             ]);
         }
         return $this->redirectToRoute('cart'); //Renvoie à la page mon panier

@@ -75,19 +75,20 @@
         let stripe = Stripe("pk_test_51JPmu4JrnSsPZmVAkO5kN2DMLYD35yqNiu85Qd4mDRwZ7X68keTvq23u9fJmlRBPTlsFb9LJiov8e1uWV5UIqPhG0094x8pUOK"); //Key public on Stripe
         let checkoutButton = document.getElementById("checkout-button");
         checkoutButton.addEventListener("click", function () {
-            fetch("/commande/create-session", {
+            fetch("/commande/create-session/{{ reference }}", {
                 method: "POST",
             })
                 .then(function (response) {
                     return response.json();
                 })
                 .then(function (session) {
-                    {#if (session.error == 'order') }#}
-                    {#    window.location.replace('{{ path('order') }}');#}
-                    {#} else }#}
-                    {#    return stripe.redirectToCheckout({ sessionId: session.id });#}
-                    {#}#}
-                    return stripe.redirectToCheckout({ sessionId: session.id });
+                    if(session.error === 'order')
+                    {   //Redirection sur le choix de l'adresse et du transporteur
+                        window.location.replace('{{ path('order') }}');
+
+                    }else{
+                        return stripe.redirectToCheckout({ sessionId: session.id });
+                    }
                 })
                 .then(function (result) {
                     // If redirectToCheckout fails due to a browser or network
