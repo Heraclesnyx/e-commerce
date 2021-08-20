@@ -130,6 +130,16 @@
       <path value="$PROJECT_DIR$/vendor/symfony/uid" />
       <path value="$PROJECT_DIR$/vendor/easycorp/easyadmin-bundle" />
       <path value="$PROJECT_DIR$/vendor/stripe/stripe-php" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/vendor/hamcrest/hamcrest-php" />
+      <path value="$PROJECT_DIR$/vendor/mailjet/mailjet-apiv3-php" />
+      <path value="$PROJECT_DIR$/vendor/mockery/mockery" />
+      <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
     </include_path>
   </component>
   <component name="ProjectId" id="1pZWB5oxELqW0BMa7jRBvOdEjvF" />
@@ -190,7 +200,8 @@
       <workItem from="1628849659349" duration="605000" />
       <workItem from="1629197117013" duration="19763000" />
       <workItem from="1629278527401" duration="10655000" />
-      <workItem from="1629367053378" duration="14464000" />
+      <workItem from="1629367053378" duration="14634000" />
+      <workItem from="1629455764440" duration="4036000" />
     </task>
     <servers />
   </component>
