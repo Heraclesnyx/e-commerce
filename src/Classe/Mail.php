@@ -42,6 +42,6 @@ class Mail
             ]
         ];
         $response = $mj->post(Resources::$Email, ['body' => $body]); //Ressource importer class
-        $response->success() && dd($response->getData());
+        $response->success();
     }
 }

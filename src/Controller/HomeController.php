@@ -14,11 +14,6 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-
-        $mail = new  Mail();
-        $mail->send('heraclesnyx@gmail.com','Julie', 'Test mail', 'Bonjour Julie es-tu satisfaite de tes achats?');
-
-
         return $this->render('home/index.html.twig');
     }
 }

@@ -26,9 +26,7 @@ class UserService
     {
         // Importer le Service.
         $this->em= $paramService;
-
         $this->entityManager = $entityManager;
-
     }
 
     /**
@@ -38,8 +36,6 @@ class UserService
      */
     public function resetAttemptSignInUser($user)
     {
-        //Récupérer Doctrine
-//        dd($user);
         //SetValue à 0 et flush()
         $user->setAttemptLogin(0);
         $this->entityManager->flush();

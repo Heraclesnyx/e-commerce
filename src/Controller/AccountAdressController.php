@@ -26,7 +26,6 @@ class AccountAdressController extends AbstractController
      */
     public function index(): Response
     {
-//        dd($this->getUser());
         return $this->render('account/address.html.twig');
     }
 
@@ -35,7 +34,6 @@ class AccountAdressController extends AbstractController
      */
     public function add(Cart $cart,Request $request): Response
     {
-//        dd($this->getUser());
         $address = new Adress();
 
         $form = $this->createForm(AddressType::class, $address);
@@ -53,8 +51,6 @@ class AccountAdressController extends AbstractController
             }else{
                 return $this->redirectToRoute('account_address');
             }
-
-//            dd($address);
         }
 
 
@@ -68,7 +64,6 @@ class AccountAdressController extends AbstractController
      */
     public function edit(Request $request, $id): Response
     {
-//        dd($this->getUser());
         $address = $this->entityManager->getRepository(Adress::class)->findOneBy(['id' => $id]);
 
 

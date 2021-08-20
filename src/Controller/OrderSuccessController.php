@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Classe\Cart;
+use App\Classe\Mail;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +32,6 @@ class OrderSuccessController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-
         if(!$order->getIsPaid())
         {
             //Vider la session "cart", pour vider le panier de l'utilisateur, il a acheté,il a fini sa commande donc on lui vide sa commande ensuite
@@ -42,6 +42,9 @@ class OrderSuccessController extends AbstractController
             $this->entityManager->flush(); //Et on le met en base
 
             //Envoyer un email a notre client pour lui confirmer sa commande
+            $mail = new Mail();
+            $content ='Bonjour ' . $order->getUser()->getFirstname().'<br/>Merci pour votre commande<br/><br/>Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
+            $mail->send($order->getUser()->getEmail(), $order->getUser()->getFirstname(),'Votre commande sur E-commerce est bien validée.', $content);
         }
 
         //Afficher les qq infos de la commande de l'utilisateur

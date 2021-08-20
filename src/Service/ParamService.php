@@ -32,9 +32,7 @@ class ParamService
     {
         // Importer le repository.
         $this->em= $repository;
-
         $this->entityManager = $entityManager;
-
     }
 
     /**
@@ -51,7 +49,6 @@ class ParamService
 
         // Retourne le nombre de tentatives autorisées, 0 si le paramètre n'existe pas.
         return !$nbr ? 0 : (int) $nbr->getValue();
-
     }//end getLoginAttempt()
 
 
