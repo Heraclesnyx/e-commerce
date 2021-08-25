@@ -4,6 +4,9 @@
 
 {% block body %}
     <h1>Mon compte</h1>
+    {% if is_granted('ROLE_ADMIN') %} {# Utiliser pour dire si l'user est un admin #}
+        <small><a href="/admin">Si vous êtes un administrateur, vous pouvez accèder au backoffice</a></small><br/>
+    {% endif %}
 
     <p> Bienvenue {{ app.user.firstname }} dans votre espace compte.</p>
     <p> C'est ici que vous pourrez modifier vos informations personnelles.</p>
