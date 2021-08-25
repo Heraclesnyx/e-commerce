@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\ResetPasswordType;
+use App\Form\ChangePasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -36,7 +36,7 @@ class AccountController extends AbstractController
     }
 
     /**
-     * Reset password
+     * Changer le mot de passe dans son espace compte
      *
      * @param Request                      $request         Request.
      * @param UserPasswordEncoderInterface $encoder         pwd encoder.
@@ -44,20 +44,20 @@ class AccountController extends AbstractController
      * @return RedirectResponse|Response
      * @Route("/account/password", name="account_password")
     */
-    public function resetPassword(Request $request, UserPasswordEncoderInterface $encoder)
+    public function changePassword(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $notification = null;
 
         $user = $this->getUser(); //récupération d'un user
-        $form = $this->createForm(ResetPasswordType::class, $user);
+        $form = $this->createForm(ChangePasswordType::class, $user);
 
 
        $form->handleRequest($request);
 
        if($form->isSubmitted() && $form->isValid()){
             $old_password= $form->get('old_password')->getData(); //récupération de l'ancien mot de passe.
-            if($encoder->isPasswordValid($user, $old_password)){
 
+           if($encoder->isPasswordValid($user, $old_password)){
                 $new_password = $form->get('plainPassword')->getData(); //partie de l'enregistrement du nouveau password, plainPassword est dans resetPasswordType
                 $password = $encoder->encodePassword($user, $new_password);
                 $user->setPassword($password);
@@ -67,10 +67,10 @@ class AccountController extends AbstractController
             } else{
                 $notification = "Votre mot de passe actuel n'est pas le bon.";
             }
-//           return $this->redirectToRoute('app_logout');
+           return $this->redirectToRoute('app_login');
 
         }
-        return $this->render('account/reset_password.html.twig', [
+        return $this->render('account/password.html.twig', [
             'form' => $form->createView(),
             'notification' => $notification
         ]);
